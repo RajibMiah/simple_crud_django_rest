@@ -17,8 +17,8 @@ def get_data(id = None):
 
 def post_data():
     data = {
-        'name':'ravin',
-        'roll':102,
+        'name':'rohit',
+        'roll':100,
         'city':'dhaka'
     }
     json_data = json.dumps(data)
@@ -26,7 +26,7 @@ def post_data():
     data = r.json()
     print(data)
 
-# post_data()
+post_data()
 
 def update_data():
     data = {
@@ -40,4 +40,4 @@ def update_data():
     data = r.json()
     print(data)   
 
-update_data()    
+# update_data()    
