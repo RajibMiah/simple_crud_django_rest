@@ -4,22 +4,81 @@
 # from rest_framework.parsers import JSONParser
 # from .serializer import StudentSerializer
 # from rest_framework.renderers import JSONRenderer
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .serializer import StudentSerializer
+from .models import Student
 
-
-@api_view(['GET' ,'POST'])
+@api_view(['GET' ,'POST' , 'PUT' , 'DELETE'])
 def student_api(request):
 
     if request.method == 'GET':
-        return Response({'msg':'This is get  request'})
+        id = request.data.get('id')
+
+        if id is not None:
+            stu_model_data = Student.objects.get(id = id)
+            serializer = StudentSerializer(stu_model_data)
+            return Response(serializer.data)
+
+        stu_model_data = Student.objects.all()
+        serializer = StudentSerializer(stu_model_data , many = True)
+        return Response(serializer.data)    
 
     if request.method == 'POST':
-        print('request', request.data)
-        return Response({'msg':'This is post request'} , "data" , request.data)
+        serializer = StudentSerializer(data =  request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':"Data created"})
+        return Response(serializer.errors)
+
+    if request.method == 'PUT':
+
+        stu_object = Student.objects.get(pk = request.data.get("id"))
+        serializer = StudentSerializer(stu_object , data = request.data , partial = True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':"Data Updated"})    
+        return Response(serializer.errors)
+
+    if request.method == 'delete':
+        stu_object = Student.objects.get(pk = request.data.get('id'))
+        stu_object.delete()
+        return Response({'msg':"Data deleted"})
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # @csrf_exempt

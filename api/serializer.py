@@ -12,18 +12,18 @@ def start_with_r(value):
 
 class StudentSerializer(serializers.ModelSerializer):
 
-    name = serializers.CharField(validators = [start_with_r])
+    # name = serializers.CharField(validators = [start_with_r])
 
     class Meta:
         model = Student
         fields = ['id','name', 'roll' , 'city']
         
         # read_only_fileds = ['name','roll']
-        extra_kwargs = {
-            'roll':{
-                'read-only':True
-            }
-        }
+        # extra_kwargs = {
+        #     'roll':{
+        #         'read-only':True
+        #     }
+        # }
 
     #Field lavel validation
     def validate_roll(self , value):

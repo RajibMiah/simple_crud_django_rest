@@ -13,13 +13,13 @@ def get_data(id = None):
     data = r.json()
     print('response' , data)
 
-# get_data()    
+# get_data(2)    
 
 
 def post_data():
     data = {
-        'name':'rohit',
-        'roll':100,
+        'name':'sumit',
+        'roll':106,
         'city':'dhaka'
     }
     headers = {'content-Type':'application/json'}
@@ -28,13 +28,14 @@ def post_data():
     data = r.json()
     print(data)
 
-post_data()
+# post_data()
+   
 
 def update_data():
     data = {
-        'id':4,
-        'name':'ravin',
-        'roll':102,
+        'id':'8',
+        'name':'Karim',
+        'roll':106,
         'city':'dhaka'
     }
     
@@ -44,4 +45,4 @@ def update_data():
     data = r.json()
     print(data)   
 
-# update_data()    
+update_data()
