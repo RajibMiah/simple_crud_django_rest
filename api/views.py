@@ -8,17 +8,18 @@
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 from .serializer import StudentSerializer
 from .models import Student
 
-@api_view(['GET' ,'POST' , 'PUT' , 'DELETE'])
-def student_api(request):
+@api_view(['GET' ,'POST' , 'PUT' , 'PATCH','DELETE'])
+def student_api(request , pk = None):
 
     if request.method == 'GET':
-        id = request.data.get('id')
 
+        id = pk
         if id is not None:
-            stu_model_data = Student.objects.get(id = id)
+            stu_model_data = Student.objects.get(id = pk)
             serializer = StudentSerializer(stu_model_data)
             return Response(serializer.data)
 
@@ -30,23 +31,33 @@ def student_api(request):
         serializer = StudentSerializer(data =  request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'msg':"Data created"})
-        return Response(serializer.errors)
+            return Response({'msg':"Data created"} ,status  = status.HTTP_201_CREATED)
+        return Response(serializer.errors , status = status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'PUT':
 
-        stu_object = Student.objects.get(pk = request.data.get("id"))
+        stu_object = Student.objects.get(pk = pk)
+        serializer = StudentSerializer(stu_object , data = request.data , )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'msg':"Complete data Updated"} , status= status.HTTP_200_OK)    
+        return Response(serializer.errors , status = status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'PATCH':
+
+        stu_object = Student.objects.get(pk = pk)
         serializer = StudentSerializer(stu_object , data = request.data , partial = True)
 
         if serializer.is_valid():
             serializer.save()
-            return Response({'msg':"Data Updated"})    
-        return Response(serializer.errors)
+            return Response({'msg':"Parital data Updated"})    
+        return Response(serializer.errors , status=  status.HTTP_400_BAD_REQUEST)    
 
     if request.method == 'delete':
-        stu_object = Student.objects.get(pk = request.data.get('id'))
+        stu_object = Student.objects.get(pk = pk)
         stu_object.delete()
-        return Response({'msg':"Data deleted"})
+        return Response({'msg':"Data deleted"} , status = status.HTTP_200_OK)
     
 
 
