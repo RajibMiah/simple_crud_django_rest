@@ -14,54 +14,98 @@
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+
+
+from rest_framework import  status
 from .serializer import StudentSerializer
 from .models import Student
 
+from rest_framework.mixins  import ListModelMixin , CreateModelMixin , RetrieveModelMixin , UpdateModelMixin , DestroyModelMixin
+from rest_framework.generics import GenericAPIView
+
+
+#<---------------create model mixin -------------->
+
+class LCStudentListAPI(GenericAPIView , ListModelMixin , CreateModelMixin):
+
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+    def get(self , request , *args , **kwargs):
+        return self.list(request , *args , **kwargs)
+
+    def post(self , request ,*args , **kwargs):
+        return self.create(request , *args , **kwargs)
+
+class RUDStudentAPI(GenericAPIView , RetrieveModelMixin , UpdateModelMixin , DestroyModelMixin):
+    
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+    def get(self, request , *args , **kwargs):
+        return self.retrieve(request , *args , **kwargs)
+
+    def put(self , request , *args, **kwargs):
+        return self.update(request, *args ,**kwargs)
+
+    def delete(self , request , *args , **kwargs):
+        return self.destroy(request , *args , **kwargs)        
+
+
+
+
+
+
+
+
+
+
+
+
 # <-------------class based api view ------------>
 
-class student_api(APIView):
+# class student_api(APIView):
 
-    def get(self  , pk = None , format = None):
-        id = pk
-        if id is not None:
-            stu_model_data = Student.objects.get(id = pk)
-            serializer = StudentSerializer(stu_model_data)
-            return Response(serializer.data)
+#     def get(self  , pk = None , format = None):
+#         id = pk
+#         if id is not None:
+#             stu_model_data = Student.objects.get(id = pk)
+#             serializer = StudentSerializer(stu_model_data)
+#             return Response(serializer.data)
 
-        stu_model_data = Student.objects.all()
-        serializer = StudentSerializer(stu_model_data , many = True)
-        return Response(serializer.data)
+#         stu_model_data = Student.objects.all()
+#         serializer = StudentSerializer(stu_model_data , many = True)
+#         return Response(serializer.data)
 
-    def post(self , request , format = None ):
-        serializer = StudentSerializer(data =  request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'msg':"Data created"} ,status  = status.HTTP_201_CREATED)
-        return Response(serializer.errors , status = status.HTTP_400_BAD_REQUEST)
+#     def post(self , request , format = None ):
+#         serializer = StudentSerializer(data =  request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response({'msg':"Data created"} ,status  = status.HTTP_201_CREATED)
+#         return Response(serializer.errors , status = status.HTTP_400_BAD_REQUEST)
     
-    def put(self , request , pk = None , format =  None):
-        stu_object = Student.objects.get(pk = pk)
-        serializer = StudentSerializer(stu_object , data = request.data , )
+#     def put(self , request , pk = None , format =  None):
+#         stu_object = Student.objects.get(pk = pk)
+#         serializer = StudentSerializer(stu_object , data = request.data , )
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'msg':"Complete data Updated"} , status= status.HTTP_200_OK)    
-        return Response(serializer.errors , status = status.HTTP_400_BAD_REQUEST)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response({'msg':"Complete data Updated"} , status= status.HTTP_200_OK)    
+#         return Response(serializer.errors , status = status.HTTP_400_BAD_REQUEST)
     
-    def patch(self , request , pk = None , format = None):
-        stu_object = Student.objects.get(pk = pk)
-        serializer = StudentSerializer(stu_object , data = request.data , partial = True)
+#     def patch(self , request , pk = None , format = None):
+#         stu_object = Student.objects.get(pk = pk)
+#         serializer = StudentSerializer(stu_object , data = request.data , partial = True)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'msg':"Parital data Updated"})    
-        return Response(serializer.errors , status=  status.HTTP_400_BAD_REQUEST)    
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response({'msg':"Parital data Updated"})    
+#         return Response(serializer.errors , status=  status.HTTP_400_BAD_REQUEST)    
 
-    def delete(self , pk = None , format = None):
-        stu_object = Student.objects.get(pk = pk)
-        stu_object.delete()
-        return Response({'msg':"Data deleted"} , status = status.HTTP_200_OK)
+#     def delete(self , pk = None , format = None):
+#         stu_object = Student.objects.get(pk = pk)
+#         stu_object.delete()
+#         return Response({'msg':"Data deleted"} , status = status.HTTP_200_OK)
 
 
 
