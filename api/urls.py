@@ -1,10 +1,16 @@
-from django.urls import path
-from .views import StudentListCreateAPI , RUDStudentAPI
+from django.urls import path , include
+from .views import StudentModelSet ,StudentModelRonlyViewSet
+from rest_framework.routers import DefaultRouter
 # student_api
 
+router = DefaultRouter()
+
+router.register('studentapi' , StudentModelRonlyViewSet , basename='student')
+
 urlpatterns = [
-    path('', StudentListCreateAPI.as_view()),
-    path('<int:pk>/' , RUDStudentAPI.as_view())
+    path('', include(router.urls))
+    # path('', StudentModelSet.as_view()),
+    # path('<int:pk>/' , StudentModelSet.as_view())
     # path('', student_api.as_view()),
     # path('<int:pk>/',student_api.as_view())
 ]

@@ -22,27 +22,48 @@
 # from rest_framework.mixins  import ListModelMixin , CreateModelMixin , RetrieveModelMixin , UpdateModelMixin , DestroyModelMixin
 # from rest_framework.generics import GenericAPIView
 
+# from .serializer import StudentSerializer
+# from .models import Student
+# from rest_framework.generics import ListCreateAPIView , RetrieveUpdateDestroyAPIView
 
 from .serializer import StudentSerializer
 from .models import Student
-from rest_framework.generics import ListCreateAPIView , RetrieveUpdateDestroyAPIView
+from rest_framework import  viewsets
+
+
+#<--------- model view sets ------------>
+
+class StudentModelSet(viewsets.ModelViewSet):
+    queryset =  Student.objects.all()
+    serializer_class = StudentSerializer
+
+class StudentModelRonlyViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset =  Student.objects.all()
+    serializer_class = StudentSerializer
+
+
+
+
+
+
+
+
+
+
+
 
 
 #<----------concrete view --------------->
 
 
 
-class StudentListCreateAPI(ListCreateAPIView):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
+# class StudentListCreateAPI(ListCreateAPIView):
+#     queryset = Student.objects.all()
+#     serializer_class = StudentSerializer
 
-class RUDStudentAPI(RetrieveUpdateDestroyAPIView):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
-
-
-
-
+# class RUDStudentAPI(RetrieveUpdateDestroyAPIView):
+#     queryset = Student.objects.all()
+#     serializer_class = StudentSerializer
 
 
 
