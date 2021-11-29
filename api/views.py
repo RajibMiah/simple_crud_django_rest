@@ -53,10 +53,10 @@ class StudentModelRonlyViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = StudentSerializer
     
     authentication_classes = [SessionAuthentication]
-    permission_classes =  [IsAuthenticated]
+    permission_classes =  []
 
     # permission_classes = [IsAuthenticatedOrReadOnly]
-    # permission_classes = [DjangoModelPermission]
+    # permission_classes = [DjangoModelPermission]Permision
 
 
 
