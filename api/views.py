@@ -26,8 +26,11 @@
 # from .models import Student
 # from rest_framework.generics import ListCreateAPIView , RetrieveUpdateDestroyAPIView
 
-from rest_framework.authentication import BasicAuthentication ,SessionAuthentication
-from rest_framework.permissions import IsAuthenticated ,AllowAny, IsAuthenticatedOrReadOnly
+# from rest_framework.authentication import BasicAuthentication ,SessionAuthentication
+# from rest_framework.permissions import IsAuthenticated ,AllowAny, IsAuthenticatedOrReadOnly
+
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from .serializer import StudentSerializer
 from .models import Student
@@ -40,8 +43,8 @@ class StudentModelSet(viewsets.ModelViewSet):
     queryset =  Student.objects.all()
     serializer_class = StudentSerializer
     
-    authentication_classes = [BasicAuthentication]
-    permission_classes =  [AllowAny]
+    # authentication_classes = [BasicAuthentication]
+    # permission_classes =  [AllowAny]
 
     
 
@@ -52,8 +55,8 @@ class StudentModelRonlyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset =  Student.objects.all()
     serializer_class = StudentSerializer
     
-    authentication_classes = [SessionAuthentication]
-    permission_classes =  []
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes =  []
 
     # permission_classes = [IsAuthenticatedOrReadOnly]
     # permission_classes = [DjangoModelPermission]Permision
