@@ -38,6 +38,7 @@ from .serializer import StudentSerializer
 from .models import Student
 from rest_framework import  viewsets
 from rest_framework.generics import ListAPIView
+from rest_framework.filters import SearchFilter
 
 # from django_filters.rest_framework import DjangoFilterBackend
 
@@ -50,7 +51,10 @@ class StudentList(ListAPIView):
     queryset = Student.objects.filter(passby = 'user1')
     serializer_class = StudentSerializer
 
-    filterset_fields =['name','city']
+    filter_backends = [SearchFilter]
+    search_fields = ['name','city']
+
+    # filterset_fields =['name','city']
 
     # filter_backends = [DjangoFilterBackend]
 
