@@ -130,5 +130,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Global basic authentication
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':['rest_framework.authentication.BasicAuthentication'],
-    'DEFAULT_PERMISSION_CLASSES':['rest_framework.permissions.IsAuthenticated']
+    'DEFAULT_PERMISSION_CLASSES':['rest_framework.permissions.IsAuthenticated'],
+
+    # restrict user request api
+    'DEFAULT_THROTTLE_RATES':{
+        'anon':'20/day',
+        'user':'50/day',
+        'jack':'3/minute'
+    }
 }

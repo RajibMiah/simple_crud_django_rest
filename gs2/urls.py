@@ -21,6 +21,6 @@ from .auth import CustomAuthToken
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('student/',include('api.urls')),
-    path('api-token-auth/', CustomAuthToken.as_view())
+    path('gettoken/', CustomAuthToken.as_view())
 ]
  

@@ -29,10 +29,11 @@
 # from rest_framework.authentication import BasicAuthentication ,SessionAuthentication
 # from rest_framework.permissions import IsAuthenticated ,AllowAny, IsAuthenticatedOrReadOnly
 
-from rest_framework import permissions
+
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-
+from rest_framework.throttling import AnonRateThrottle , UserRateThrottle
+from .throttling import JackRateThrottle
 from .serializer import StudentSerializer
 from .models import Student
 from rest_framework import  viewsets
@@ -49,15 +50,14 @@ class StudentModelSet(viewsets.ModelViewSet):
 
     
 
-    
-
-
 class StudentModelRonlyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset =  Student.objects.all()
     serializer_class = StudentSerializer
     
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
+    throttle_classes = [AnonRateThrottle , JackRateThrottle]
+
     # permission_classes =  [IsAuthenticated]
 
     # permission_classes = [IsAuthenticatedOrReadOnly]
