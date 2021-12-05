@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
     'api',
 ]
 
@@ -137,5 +138,8 @@ REST_FRAMEWORK = {
         'anon':'20/day',
         'user':'50/day',
         'jack':'3/minute'
-    }
+    },
+
+    #default filter backends
+    'DEFAULT_FILTER_BACKENDS':['django_filters.rest_framework.DjangoFilterBackend']
 }

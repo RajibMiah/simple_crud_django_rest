@@ -37,18 +37,34 @@ from .throttling import JackRateThrottle
 from .serializer import StudentSerializer
 from .models import Student
 from rest_framework import  viewsets
+from rest_framework.generics import ListAPIView
+
+# from django_filters.rest_framework import DjangoFilterBackend
+
+
+
+#filter student by passby
+
+class StudentList(ListAPIView):
+
+    queryset = Student.objects.filter(passby = 'user1')
+    serializer_class = StudentSerializer
+
+    filterset_fields =['name','city']
+
+    # filter_backends = [DjangoFilterBackend]
+
+    # filter by spacific user
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     return Student.objects.filter(passby = user)
+
+
+
+
 
 
 #<--------- model view sets ------------>
-
-class StudentModelSet(viewsets.ModelViewSet):
-    queryset =  Student.objects.all()
-    serializer_class = StudentSerializer
-    
-    # authentication_classes = [BasicAuthentication]
-    # permission_classes =  [AllowAny]
-
-    
 
 class StudentModelRonlyViewSet(viewsets.ReadOnlyModelViewSet):
     queryset =  Student.objects.all()
@@ -66,6 +82,12 @@ class StudentModelRonlyViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 
+# class StudentModelSet(viewsets.ModelViewSet):
+#     queryset =  Student.objects.all()
+#     serializer_class = StudentSerializer
+    
+#     # authentication_classes = [BasicAuthentication]
+#     # permission_classes =  [AllowAny]
 
 
 
