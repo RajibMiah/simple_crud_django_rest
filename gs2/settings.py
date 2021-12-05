@@ -144,6 +144,6 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS':['django_filters.rest_framework.DjangoFilterBackend'],
 
     #default search query key name
-    'SEARCH_PARAM':'q'
+    # 'SEARCH_PARAM':'q'
     
 }

@@ -30,15 +30,16 @@
 # from rest_framework.permissions import IsAuthenticated ,AllowAny, IsAuthenticatedOrReadOnly
 
 
+from rest_framework import filters
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import OR, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.throttling import AnonRateThrottle , UserRateThrottle
 from .throttling import JackRateThrottle
 from .serializer import StudentSerializer
 from .models import Student
 from rest_framework import  viewsets
 from rest_framework.generics import ListAPIView
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter , OrderingFilter
 
 # from django_filters.rest_framework import DjangoFilterBackend
 
@@ -51,8 +52,12 @@ class StudentList(ListAPIView):
     queryset = Student.objects.filter(passby = 'user1')
     serializer_class = StudentSerializer
 
-    filter_backends = [SearchFilter]
-    search_fields = ['name','city']
+    filter_backends = [OrderingFilter]
+
+    # ordering_fields = ['name' , 'city']
+    
+    # filter_backends = [SearchFilter]
+    # search_fields = ['name','city']
 
     # filterset_fields =['name','city']
 
